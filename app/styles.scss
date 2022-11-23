@@ -1,35 +1,63 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 
 :root {
-    --primary-light: #005AC1;
-    --background-light: #FEFBFF;
-    --on-primary-light: #FFFFFF;
     --shadow: #000000;
+
+    --background-light: #FEFBFF;
+    --on-background-light: #1B1B1F;
+
+    --primary-light: #005AC1;
+    --on-primary-light: #FFFFFF;
+
+    --primary-container-light: #D8E2FF;
+    --on-primary-container-light: #001A41;
+
     --surface-variant-light: #E1E2EC;
     --on-surface-variant-light: #44474F;
     --on-surface-light: #1B1B1F;
 
+    --background-dark: #1B1B1F;
+    --on-background-dark: #E3E2E6;
+
     --primary-dark: #ADC6FF;
     --on-primary-dark: #002E69;
-    --background-dark: #1B1B1F;
+
+    --primary-container-dark: #004494;
+    --on-primary-container-dark: #D8E2FF;
+
     --surface-variant-dark: #44474F;
     --on-surface-variant-dark: #C4C6D0;
     --on-surface-dark: #E3E2E6;
+
     @media(prefers-color-scheme: light) {
         --primary: var(--primary-light);
         --on-primary: var(--on-primary-light);
+
+        --primary-container: var(--primary-container-light);
+        --on-primary-container: var(--on-primary-container-light);
+
         --background: var(--background-light);
+        --on-background: var(--on-background-light);
+
         --surface-variant: var(--surface-variant-light);
         --on-surface-variant: var(--on-surface-variant-light);
         --on-surface: var(--on-surface-light);
+        --display-color: var(--primary-light);
     }
     @media(prefers-color-scheme: dark) {
         --primary: var(--primary-dark);
         --on-primary: var(--on-primary-dark);
+
+        --primary-container: var(--primary-container-dark);
+        --on-primary-container: var(--on-primary-container-dark);
+
         --background: var(--background-dark);
+        --on-background: var(--on-background-dark);
+
         --surface-variant: var(--surface-variant-dark);
         --on-surface-variant: var(--on-surface-variant-dark);
         --on-surface: var(--on-surface-dark);
+        --display-color: var(--on-primary-dark);
       }
 }
 
@@ -140,19 +168,41 @@
 
 body {
     display: grid;
-    grid-template-rows: 30vh repeat(3, min-content);
-    gap: 8px;
+    grid-template-rows: 50vh repeat(2, min-content);
+    gap: 24px;
     margin: 0;
     padding: 0;
     background-color: var(--background);
     font-family: unquote("Roboto");
+    scroll-behavior: smooth;
+}
+
+.maincontent {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    margin-inline: 16px;
+    // .body-margin {
+    //     background: yellow;
+    //     content: '';
+    //     flex-grow: 1;
+    //     flex-basis: 32px;
+    //     margin: 0;
+    //     padding: 0;
+    // }
+    // .middle-section {
+    //     margin: 0;
+    //     padding: 0;
+    // }
 }
 
 .hero-section {
-    color: var(--primary);
+    color: var(--display-color);
     padding-block: 32px;
     padding-inline: 64px; 
-    background-image: url('images/img.jpg');
+    background-image: url('assets/img.jpg');
+    //background-color: #dbe8f6;
     background-size: cover;
     background-position-y: center;
     background-position-x: center;
@@ -163,7 +213,6 @@ body {
     h1 {
         margin: 0;
         @include display-small();
-        text-shadow: 2px 2px 4px var(--shadow);
     }
 
     .button {
@@ -179,17 +228,14 @@ body {
         align-items: center;
         justify-content: center;
         padding-inline: 24px;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 20px;
-        letter-spacing: 0.1px;
+        @include label-large();
         box-shadow: 0px 4px 4px var(--shadow);
         &:before {
             content: '';
             position: absolute;
             inset: 0;
             opacity: var(--state-layer-opacity, 0);
-            background-color: var(--on-surface);
+            background-color: var(--on-primary);
             z-index: -1;
             border-radius: inherit;
           }
@@ -202,24 +248,27 @@ body {
 }
 
 .content {
-    margin-inline: 8px;
-    color: var(--on-surface-variant);
+    color: var(--on-background);
     border-radius: 12px;
     padding: 16px;
+    &:nth-child(odd):not(:last-child) {
+        background-color: var(--primary-container);
+        color: var(--on-primary-container);
+    }
 }
 
 h2 {
     margin: 0;
     @include headline-small();
+    margin-bottom: 20px;
 }
 
 h3 {
     @include title-small();
-    text-align: right;
 }
 
 p {
-    @include body-small();
+    @include body-medium();
     margin: 0;
 }
 
@@ -233,7 +282,6 @@ p {
 }
 
 .facts-section {
-    background-color: var(--background);
     display: grid;
     grid-template-columns: 1fr;
     gap: 8px;
@@ -247,7 +295,7 @@ p {
             position: absolute;
             inset: 0;
             opacity: var(--state-layer-opacity, 0);
-            background-color: var(--background);
+            background-color: var(--on-surface);
             z-index: -1;
             border-radius: inherit;
           }
@@ -258,10 +306,7 @@ p {
         h4 {
             margin-block: 0;
             color: var(--on-surface);
-            line-height: 24px;
-            font-size: 16px;
-            letter-spacing: 0.25px;
-            font-weight: 400;
+            @include title-medium();
         }
         p {
             color: var(--on-surface-variant);
@@ -273,6 +318,9 @@ p {
             border-radius: inherit;
         }
         .fact-description {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             padding: 16px;
         }
     }
@@ -282,10 +330,10 @@ p {
     display: grid;
     grid-template-columns: 1fr;
     gap: 8px;
-    color: var(--primary);
-    @include label-small();
+    @include label-large();
     width: 100%;
     a {
+        color: var(--primary);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -295,7 +343,7 @@ p {
         position: relative;
         isolation: isolate;
         &:visited {
-            color: currentColor; //dont understand why some of visited links are highlighted with default visited color
+            color: var(--primary);
         }
         &:before {
             content: '';
@@ -320,9 +368,6 @@ footer {
 }
 
 @media(min-width: 415px) {
-    .content {
-        margin-inline: 12px;
-    }
     .hero-section {
         h1 {
             @include display-medium();
@@ -344,6 +389,12 @@ footer {
             img {
                 width: 100%;
             }
+            h4 {
+                @include title-medium();
+            }
+            p {
+                @include body-medium();
+            }
         }
     }
     .links-section {
@@ -351,15 +402,18 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
     footer {
-        @include label-medium();
+        @include label-small();
         color: var(--on-surface-variant);
     }
 }
 
-@media(min-width: 840px) {
-    .content {
+@media(min-width: 632px) {
+    .maincontent {
         margin-inline: 32px;
     }
+}
+
+@media(min-width: 840px) {
     .hero-section {
         background-position-y: 35%;
         h1 {
@@ -371,31 +425,46 @@ footer {
         align-items: center;
     }
     h2 {
-        @include headline-large();
+        @include headline-medium();
     }
     h3 {
-        @include title-large();
+        @include title-medium();
     }
     p {
-        @include body-large();
+        @include body-medium();
     }
     .facts-section {
         grid-template-columns: repeat(3, 1fr);
+        .fact-card {
+            h4 {
+                @include title-medium();
+            }
+            p {
+                @include body-medium();
+            }
+        }
     }
     .links-section {
-        @include label-large();
+        @include label-medium();
         grid-template-columns: repeat(3, 1fr);
     }
     footer {
-        @include label-large();
+        @include label-small();
+    }
+}
+
+
+@media(min-width: 904px) {
+    .maincontent {
+        margin-inline: 100px;
     }
 }
 
 @media(min-width: 1200px) {
-    .facts-section {
-        grid-template-columns: repeat(4, 1fr);
-    }
     .links-section {
         grid-template-columns: repeat(4, 1fr);
+    }
+    .maincontent {
+        margin-inline: 200px;
     }
 }

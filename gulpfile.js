@@ -10,7 +10,7 @@ import cleancss from 'gulp-clean-css';
 
 const bsInstance = browserSync.create();
 const outputPath = './dist';
-const imagesOutputPath = outputPath.concat('/images')
+const assetsOutputPath = outputPath.concat('/assets')
 
 function browsersync() {
     bsInstance.init({
@@ -36,9 +36,9 @@ function styles() {
         .pipe(bsInstance.stream());
 }
 
-function images() {
-    return gulp.src('app/images/*.*')
-        .pipe(gulp.dest(imagesOutputPath))
+function assets() {
+    return gulp.src('app/assets/*.*')
+        .pipe(gulp.dest(assetsOutputPath))
         .pipe(bsInstance.stream());
 }
 
@@ -51,13 +51,13 @@ function startwatch() {
         styles();
         bsInstance.reload;
     });
-    gulp.watch('app/images/*.*').on('change', () => {
+    gulp.watch('app/assets/*.*').on('change', () => {
         pages();
         bsInstance.reload;
     });
 }
 
-const build = gulp.series(gulp.parallel(pages, styles, images));
+const build = gulp.series(gulp.parallel(pages, styles, assets));
 const serve = gulp.series(build, gulp.parallel(browsersync, startwatch));
 
 export {
